@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-//#include <string>
+#include <string>
 //#include <functional>
 //#include <unordered_map>
 #include <ctype.h>
@@ -23,21 +23,41 @@ void applyToSymbols(std::string filename, std::function<void(const char)> funApp
 }
 */
 
-int main(void) 
+struct SymbStats
 {
-	ifstream ifs("countSymbols.cpp");
+	int nPunct;
+	int nTotal;
+};
+
+SymbStats countInFile(string fileName)
+{
+	SymbStats sym{ 0, 0 };
+
+	ifstream ifs(fileName);
 	char bufCahr;
-	auto punct { 0 };
-	auto total { 0 };
 
 	while (ifs.get(bufCahr))
 	{
-		++total;
+		++sym.nTotal;
 		if (ispunct(bufCahr))
-			++punct;
+			++sym.nPunct;
 	}
 
-	cout << endl << punct << " of " << total << "; Rate: " << static_cast<double> (punct) / total << endl;
+	return sym;
+}
+
+int main(int argc, char *argv[])
+{
+	if (argc != 2)
+	{
+		cout << "enter a filename";
+		return 0;
+	}
+
+	auto sym = countInFile(argv[1]);
+
+	cout << endl << sym.nPunct << " of " << sym.nTotal << 
+		"; Rate: " << static_cast<double> (sym.nPunct) / sym.nTotal << endl;
 
 	return 0;
 
