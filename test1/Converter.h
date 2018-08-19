@@ -5,7 +5,6 @@
 #include <unordered_map>
 #include <vector>
 
-
 class Converter
 {
 public:
@@ -22,9 +21,21 @@ public:
 
 private:
 	void callOnEachFile(std::function<void(const std::string &)> func);
+
 	void convertToMp3(const std::string &filename);
+
 	void fillInput(const PcmBuf &rawBuf);
+
+	template <class Ty_Encoder>
+	void encode()
+	{
+		Ty_Encoder enc;
+		//TODO draft
+		enc.encode(m_InBuf[0], m_OutBuf[0]);
+		return;
+	}
 
 	std::string m_Path;
 	InputBuffer m_InBuf;
+	OutputBuffer m_OutBuf;
 };

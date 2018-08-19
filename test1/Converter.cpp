@@ -4,6 +4,7 @@
 #include <fstream>
 #include <numeric>
 #include <algorithm>
+#include "encoder.h"
 
 
 using namespace std;
@@ -12,14 +13,13 @@ Converter::Converter(const std::string &path) : m_Path(path)
 {
 	callOnEachFile([this](const string &fname)
 	{
-		if (fname.compare(fname.length() - 3, 3, ".wav"))
+		if (!fname.compare(fname.length() - 4, 4, ".wav"))
 		{
 			convertToMp3(fname);
 		}
 	});
 	
 }
-
 
 void Converter::callOnEachFile(std::function<void(const string &)> func)
 {
@@ -32,7 +32,7 @@ void Converter::callOnEachFile(std::function<void(const string &)> func)
 
 void Converter::convertToMp3(const string &filename) 
 {
-	ifstream ifile("testcase.wav", std::ifstream::binary);
+	ifstream ifile(filename, std::ifstream::binary);
 	//m_InBuf.clear();
 
 	// buffer
@@ -57,6 +57,8 @@ void Converter::convertToMp3(const string &filename)
 		vector<size_t> idx(m_InBuf.size());
 		iota(std::begin(idx), std::end(idx), 0); // fill with indexes
 		random_shuffle(std::begin(idx), std::end(idx)); // balance the load
+
+		encode<LameEncoder>();
 	}
 }
 
