@@ -2,8 +2,6 @@
 
 #include <filesystem>
 #include <fstream>
-#include <numeric>
-#include <algorithm>
 #include "encoder.h"
 
 
@@ -53,10 +51,8 @@ void Converter::convertToMp3(const string &filename)
 		//prepare input
 		fillInput(buffer);
 
-		//prepare queues
-		vector<size_t> idx(m_InBuf.size());
-		iota(std::begin(idx), std::end(idx), 0); // fill with indexes
-		random_shuffle(std::begin(idx), std::end(idx)); // balance the load
+		//TODO 
+		//DataProcesser comes here
 
 		encode<LameEncoder>();
 	}

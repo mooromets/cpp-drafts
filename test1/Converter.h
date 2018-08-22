@@ -18,7 +18,6 @@ public:
 
 	Converter(const std::string &path);
 
-
 private:
 	void callOnEachFile(std::function<void(const std::string &)> func);
 
