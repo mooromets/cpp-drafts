@@ -7,10 +7,10 @@
 class DataProcesser
 {
 public:
-	DataProcesser(const Converter::InputBuffer &inBuf,
-			Converter::OutputBuffer &outBuf,
-			std::function<void(const Converter::InputBuffer::value_type &,
-				Converter::OutputBuffer::value_type &)> func) :
+	DataProcesser(const InputBuffer &inBuf,
+			OutputBuffer &outBuf,
+			std::function<void(const InputBuffer::value_type &,
+				OutputBuffer::value_type &)> func) :
 		m_InBuf(inBuf),
 		m_OutBuf(outBuf),
 		m_Job(func)
@@ -22,16 +22,16 @@ public:
 
 private:
 
-	static void _job(const Converter::InputBuffer &inbuf,
+	static void _job(const InputBuffer &inbuf,
 		const std::vector<size_t>::const_iterator &firstIdx,
 		const std::vector<size_t>::const_iterator &lastIdx,
-		Converter::OutputBuffer &outbuf,
-		std::function<void(const Converter::InputBuffer::value_type &,
-			Converter::OutputBuffer::value_type &)> func);
+		OutputBuffer &outbuf,
+		std::function<void(const InputBuffer::value_type &,
+			OutputBuffer::value_type &)> func);
 
-	const Converter::InputBuffer &m_InBuf;
-	Converter::OutputBuffer &m_OutBuf;
-	std::function<void(const Converter::InputBuffer::value_type &,
-		Converter::OutputBuffer::value_type &)> m_Job;
+	const InputBuffer &m_InBuf;
+	OutputBuffer &m_OutBuf;
+	std::function<void(const InputBuffer::value_type &,
+		OutputBuffer::value_type &)> m_Job;
 	unsigned m_nThreads;
 };

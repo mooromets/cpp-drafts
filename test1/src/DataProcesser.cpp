@@ -19,13 +19,9 @@ void DataProcesser::doJob()
 	auto itEnd = itBeg;
 	do {
 		if (itEnd - itBeg + part <= idx.size())
-		{
 			itEnd = itBeg + part + 1;
-		}
 		else 
-		{
 			itEnd = std::end(idx);
-		}
 
 		//TODO call m_Job in seperate thread on each element in subqueue
 
@@ -35,12 +31,12 @@ void DataProcesser::doJob()
 
 
 //TODO refactor params
-static void _job(const Converter::InputBuffer &inbuf,
+static void _job(const InputBuffer &inbuf,
 	const std::vector<size_t>::const_iterator &firstIdx,
 	const std::vector<size_t>::const_iterator &lastIdx,
-	Converter::OutputBuffer &outbuf,
-	std::function<void(const Converter::InputBuffer::value_type &,
-		Converter::OutputBuffer::value_type &)> func
+	OutputBuffer &outbuf,
+	std::function<void(const InputBuffer::value_type &,
+		OutputBuffer::value_type &)> func
 	) 
 {
 	for (auto it = firstIdx; it != lastIdx; ++it) 
