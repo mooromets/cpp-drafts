@@ -9,3 +9,5 @@ void applyEachFile	(const std::string &path,
 					std::function<bool(const std::string &)> cond = isWavFile);
 
 std::string wavPathToMp3(const std::string &pathWav);
+
+size_t fileLength(const std::string &file);

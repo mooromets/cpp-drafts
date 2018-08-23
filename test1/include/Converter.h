@@ -4,59 +4,63 @@
 #include <functional>
 #include <unordered_map>
 #include <vector>
+#include <fstream>
+#include <algorithm>
 
-using PcmBuf = std::vector<short int>;
-using Mp3Buf = std::vector<unsigned char>;
-using InputBuffer = std::vector<PcmBuf>;
-using OutputBuffer = std::unordered_map<unsigned, Mp3Buf>;
+
+using AudioBuf = std::vector<char>;
+using InputBuffer = std::vector<AudioBuf>;
+using OutputBuffer = std::vector<AudioBuf>;
+//using OutputBuffer = std::unordered_map<unsigned, AudioBuf>;
+
 
 template <class Ty_Encoder>
 class Converter
 {
 public:
 	Converter (const Ty_Encoder &encoder, 
-				size_t chunkSize = 20000, 
-				size_t maxBufSize = 100000000) :
+				size_t chunkSize = 20 * 1024, 
+				size_t maxBufSize = 100000 * 1024) :
 		m_Encoder(encoder),
 		m_ChunkSize(chunkSize), 
-		m_MaxBufLength(maxBufSize / sizeof(short)) {}
+		m_MaxBufLength(maxBufSize) {}
 
 	void convert(const std::string &filename) 
 	{
+		m_InBuf.clear();
+		m_OutBuf.clear();
 		ifstream ifile(filename, std::ifstream::binary);
-		//m_InBuf.clear();
 
 		// buffer
-		ifile.seekg(0, ifile.end);
-		size_t length = ifile.tellg();
-		ifile.seekg(0, ifile.beg);
-		length = min(length, MaxBufLength);
-
-		PcmBuf buffer(length);
+		auto length = min (fileLength(filename), m_MaxBufLength);
+		AudioBuf buffer(length);
+		AudioBuf output;
 
 		while (ifile) {
-			ifile.read(reinterpret_cast<char* >(buffer.data()), length * sizeof(short));
-			if (ifile.gcount() == 0)
-			{
+			ifile.read(buffer.data(), length);
+			auto read = ifile.gcount();
+			if (read == 0) {
+				m_Encoder.flush(output);
 				break;
+			} else {
+				//prepare input
+				fillInput(buffer);
+
+				//TODO 
+				//DataProcesser comes here
+
+				AudioBuf ab;
+				m_Encoder.encode(m_InBuf[0], output);
 			}
-
-			//prepare input
-			fillInput(buffer);
-
-			//TODO 
-			//DataProcesser comes here
-
-			m_Encoder.encode(m_InBuf[0], m_OutBuf[0]);
 		}
 	}
 private:
-	void Converter::fillInput(const PcmBuf &rawBuf)
+	void Converter::fillInput(const AudioBuf &rawBuf)
 	{
-		const short *pBeg = rawBuf.data();
-		const short *pEnd = nullptr;
+		const char *pBeg = rawBuf.data();
+		const char *pEnd = nullptr;
 		do {
-			pEnd = min(pBeg + ChunkSize, rawBuf.data() + rawBuf.size());
+			pEnd = min(pBeg + m_ChunkSize, rawBuf.data() + rawBuf.size());
 			m_InBuf.emplace_back(pBeg, pEnd);
 			pBeg = pEnd;
 		} while (pBeg != rawBuf.data() + rawBuf.size());

@@ -31,3 +31,8 @@ std::string wavPathToMp3(const std::string &pathWav)
 	auto ret = wav.parent_path() /= wav.filename().stem().string() + ".mp3";
 	return ret.string();
 }
+
+size_t fileLength(const std::string &file) 
+{
+	return std_fs::file_size(file);
+}

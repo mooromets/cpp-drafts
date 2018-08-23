@@ -14,17 +14,21 @@ public:
 	}
 
 
-	template <class Ty_InContainer, class Ty_OutContainer>
-	void encode(const Ty_InContainer &input, Ty_OutContainer &output) const
+	void encode(const AudioBuf &input, AudioBuf &output) const
 	{
-		output.resize(input.size() / 2);
+		output.resize(input.size() / m_Channels / m_PcmSize);
 		auto write = lame_encode_buffer_interleaved(m_Lame, 
-			const_cast<short*>(input.data()), input.size(), 
-			const_cast<unsigned char*>(output.data()), output.size());
+			reinterpret_cast<short*>(const_cast<char*>(input.data())), input.size() / m_PcmSize, 
+			reinterpret_cast<unsigned char*>(output.data()), output.size());
 		output.resize(write);
-		//TODO flush ???
-		//write = lame_encode_flush(lame, mp3_buffer, MP3_SIZE);
-		//write = lame_encode_buffer_interleaved(lame, pcm_buffer, read, mp3_buffer, MP3_SIZE);
+	}
+
+
+	void flush(AudioBuf &output, size_t size = 8 * 1024) const
+	{
+		output.resize(size);
+		auto write = lame_encode_flush(m_Lame, reinterpret_cast<unsigned char*>(output.data()), output.size());
+		output.resize(write);
 	}
 
 
@@ -36,4 +40,6 @@ public:
 private:
 	lame_t m_Lame;
 	int m_Samplerate = 44100;
+	const int m_Channels = 2;
+	const int m_PcmSize = sizeof(short);
 };
