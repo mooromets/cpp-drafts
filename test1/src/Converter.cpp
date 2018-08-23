@@ -1,9 +1,8 @@
-#include "Converter.h"
-
-#include <filesystem>
 #include <fstream>
-#include "encoder.h"
+#include <filesystem>
 
+#include "Converter.h"
+#include "encoder.h"
 
 using namespace std;
 

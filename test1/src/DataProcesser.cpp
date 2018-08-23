@@ -46,6 +46,6 @@ static void _job(const Converter::InputBuffer &inbuf,
 	for (auto it = firstIdx; it != lastIdx; ++it) 
 	{
 		//TODO concurrency synchronisation
-		func(inbuf[*it], outbuf[*it]);
+		//func(inbuf[*it], outbuf[*it]);
 	}
 }
