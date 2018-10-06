@@ -3,6 +3,7 @@
 using namespace std;
 
 #include "dummy.h"
+#include "copyMap2Vector.h"
 
 void foo(dummy <1> & d1, dummy <2> & d2, dummy <3> & d3) {
 	return;
@@ -31,6 +32,8 @@ int main (void)
 	std::cout << "class A" << std::endl;
 
 	A a0 = A(dummy <1>(), dummy <2>(), dummy <3>());
+
+	copyMap2Vector();
 
 	cout << "pam-pam" << endl;
 }
