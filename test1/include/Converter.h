@@ -2,17 +2,10 @@
 
 #include <string>
 #include <functional>
-#include <unordered_map>
-#include <vector>
 #include <fstream>
 #include <algorithm>
 
-
-using AudioBuf = std::vector<char>;
-using InputBuffer = std::vector<AudioBuf>;
-using OutputBuffer = std::vector<AudioBuf>;
-//using OutputBuffer = std::unordered_map<unsigned, AudioBuf>;
-
+#include "DataStorage.h"
 
 template <class Ty_Encoder>
 class Converter
@@ -24,6 +17,7 @@ public:
 		m_Encoder(encoder),
 		m_ChunkSize(chunkSize), 
 		m_MaxBufLength(maxBufSize) {}
+
 
 	void convert(const std::string &filename) 
 	{

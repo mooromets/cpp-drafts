@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Converter.h"
 #include <functional>
 #include <thread>
+
+#include "DataStorage.h"
 
 class DataProcesser
 {

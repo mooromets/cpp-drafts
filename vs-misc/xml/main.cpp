@@ -35,9 +35,6 @@ void walkThru(xml_node<> *pnode)
 		cout << pnode->value() << endl;
 		break;
 	}
-
-	if (pnode->type() == node_element) {
-	}
 }
 
 int main(void) 

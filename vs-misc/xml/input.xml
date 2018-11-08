@@ -1,0 +1,29 @@
+<root>
+	<level1 name = "abc">
+		<level2>
+			<val1>10.0</val1>
+			<val2>55</val2>
+			<val3>Joe</val3>
+		</level2>
+	</level1>
+	
+	<level1  name = "def">
+		<level2>
+			<val1>20.0</val1>
+			<val3>Ann</val3>
+		</level2>
+		<level2>
+			<val1>30.0</val1>
+			<val2>14</val2>
+			<val3>Jack</val3>
+		</level2>
+	</level1>
+	
+	<level1  name = "ghi">
+		<level2>
+			<val1>40.0</val1>
+			<val2>90</val2>
+			<val3>Shay</val3>
+		</level2>
+	</level1>	
+</root>
