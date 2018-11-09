@@ -72,6 +72,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>C:\workspace\cpp-drafts\integrations\pybind11\include;C:\Users\sergey\AppData\Local\Programs\Python\Python35-32\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\sergey\AppData\Local\Programs\Python\Python35-32\libs;$(LibraryPath)</LibraryPath>
+    <TargetExt>.pyd</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -79,6 +80,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <LanguageStandard>stdcpp14</LanguageStandard>
+      <CompileAs>CompileAsC</CompileAs>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
